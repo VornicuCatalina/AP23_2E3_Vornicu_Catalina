@@ -16,6 +16,7 @@
 + For each line I just did the string object, initialized it by first number, then added one by one the others from the same line
 + Used the function "System.nanoTime() twice, once before starting the program, one after, then substracting end-start
 + Still trying to figure it out why i get errors =)
+NEWS: I had the java level version of 19.0 that is why did not work in terminal, it was required level 8.0
 
 ---------------
 *****BONUS*****
