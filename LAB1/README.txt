@@ -21,5 +21,5 @@ NEWS: I had the java level version of 19.0 that is why did not work in terminal,
 ---------------
 *****BONUS*****
 ---------------
-+ We know a cycle graph has degree 2, for every vertex ; then calculated the powers one by one -> I found a more optimised one by using a recursive way, using 4 variables: 2 for previous matrix, 2 for current one, diagonal & other elements (it is explained even in the program)
++ We know a cycle graph has degree 2, for every vertex ; then calculated the powers one by one -> I found a more optimised one by using 2 vectors (it is explained even in the program)
 + From the principal diagonal+1 i see the 0 positions and make them 1, also the mirrored one; when elements = k then going to next line and verifying the elements that are 1 until principal diagonal then doing the previous step again until the matrix is done

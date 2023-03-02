@@ -4,7 +4,6 @@ public class Bonus {
     public static void main(String[] args) {
 
         //*
-        long start1=System.nanoTime();
         int n=5;
         long[][] mat_ini=new long[n][n];
         long[][] mat_help=new long[n][n];
@@ -12,13 +11,22 @@ public class Bonus {
         int i,j,k=2,l;
         System.out.println("Matrix for power "+1);
         for(i=0;i<n;i++){
+                if(i==0){
+                    mat_ini[i][1]=mat_ini[i][n-1]=1;
+                    mat_help[i][1]=mat_help[i][n-1]=1;
+                }
+                else if(i==n-1){
+                    mat_ini[i][0]=mat_ini[i][n-2]=1;
+                    mat_help[i][0]=mat_help[i][n-2]=1;
+                }
+                else {
+                    mat_ini[i][i - 1] = mat_ini[i][i + 1] = 1;
+                    mat_help[i][i-1]=mat_help[i][i+1]=1;
+                }
+        }
+        for(i=0;i<n;i++)
+        {
             for(j=0;j<n;j++){
-                if(i!=j){
-                    mat_ini[i][j]=mat_help[i][j]=2;
-                }
-                else{
-                    mat_ini[i][j]=mat_help[i][j]=0;
-                }
                 System.out.print(mat_ini[i][j]+" ");
             }
             System.out.println();
@@ -43,44 +51,58 @@ public class Bonus {
                     mat_new[i][j]=0;
                 }
         }
-        long end1=System.nanoTime();
         /*
-        I used a formula which helps me to calculate the matrices:
-        - both are nxn
-        - i divided the results into diagonal results and other results
-        - the diagonal will be calculated as previous other results (because 0 is on diagonal) * 2(n-1), (n-1) results left,2 value
-        - the other results will be calculated as previous diagonal*2 (value) + previous other results*2(n-2), cuz (n-2) variables left
-        - it will be done recursively, using previous variables
-        - I will use only 4 variables
+        The problem can be seen as a sequence of numbers that respects the following properties for every single power:
+        - every single row contain the same numbers, but in a different order => the row=i+1 will have the same order from
+        the previous one, but we would just move them one position to the right => there is a permutation for every single row
+        - always the first row has exactly the same elements as first column , and even in the same order
+
+        ALSO:
+        - the sum of neighbors (left & right) is the next power of matrix
+
+        In order to get a more optimised solution, we could use only 2 vectors of n that could be used one by one for finding the
+        next matrix exchanging their role: one of them to do the calculus in the other one, the other to be showed on the screen
+        and vice-versa
          */
-        long start2=System.nanoTime();
-        long diag_prev=0,diag_now,other_prev=2,other_now;
+
+        //More optimised solution
+        System.out.println("SECOND SOLUTION\n\n");
+        int[] ar1=new int[n];
+        int[] ar2=new int[n];
+        ar1[1]=ar1[n-1]=1;
         k=1;
         while(k<=n){
-            System.out.println("\n\nMatrix of power "+k+"\n\n");
-            diag_now=other_prev*2*(n-1);
-            other_now=diag_prev*2+other_prev*2*(n-2);
-            for(i=1;i<n;i++){
-                for(j=1;j<n;j++){
-                    if(i!=j){
-                        System.out.print(other_now+" ");
+            System.out.println("Matrix for power "+k);
+            for(i=0;i<n;i++){
+                for(j=0;j<n;j++){
+                    if(k%2==1){
+                        System.out.print(ar1[(n-j+i)%n]+" ");
                     }
                     else{
-                        System.out.print(diag_now+" ");
+                        System.out.print(ar2[(n-j+i)%n]+" ");
+                    }
+                }
+                if(k%2==1){
+                    if(i==0){
+                        ar2[i]=ar1[i+1]+ar1[n-1];
+                    }
+                    else{
+                        ar2[i]=ar1[(i+1)%n]+ar1[i-1];
+                    }
+                }
+                else{
+                    if(i==0){
+                        ar1[i]=ar2[i+1]+ar2[n-1];
+                    }
+                    else{
+                        ar1[i]=ar2[(i+1)%n]+ar2[i-1];
                     }
                 }
                 System.out.println();
             }
-            diag_prev=diag_now;
-            other_prev=other_now;
             System.out.println();
             k++;
         }
-        long end2=System.nanoTime();
-        System.out.println("First "+(end1-start1)+" , second "+(end2-start2));
-
-
-
         //**
 
         /*
