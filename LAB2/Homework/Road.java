@@ -9,7 +9,8 @@ public class Road {
     private int speed;
     private Location a;
     private Location b;
-    public Road(RoadType n, double l, int s,Location a, Location b){
+    public Road(String name,RoadType n, double l, int s,Location a, Location b){
+        this.name=name;
         this.length=l;
         this.speed=s;
         this.type=n;
