@@ -33,9 +33,9 @@ public class DijkstraAlgorithm extends Algorithm {
             matrix[help.indexOf(p.getRoads(i).getB().getNameLocation())][help.indexOf(p.getRoads(i).getA().getNameLocation())]=1;
             //new
             matrixLength[help.indexOf(p.getRoads(i).getA().getNameLocation())][help.indexOf(p.getRoads(i).getB().getNameLocation())]=p.getRoads(i).getLength();
-            matrixFast[help.indexOf(p.getRoads(i).getA().getNameLocation())][help.indexOf(p.getRoads(i).getB().getNameLocation())]=p.getRoads(i).getLength()*p.getRoads(i).getSpeed();
+            matrixFast[help.indexOf(p.getRoads(i).getA().getNameLocation())][help.indexOf(p.getRoads(i).getB().getNameLocation())]=p.getRoads(i).getLength()/p.getRoads(i).getSpeed();
             matrixLength[help.indexOf(p.getRoads(i).getB().getNameLocation())][help.indexOf(p.getRoads(i).getA().getNameLocation())]=p.getRoads(i).getLength();
-            matrixFast[help.indexOf(p.getRoads(i).getB().getNameLocation())][help.indexOf(p.getRoads(i).getA().getNameLocation())]=p.getRoads(i).getLength()*p.getRoads(i).getSpeed();
+            matrixFast[help.indexOf(p.getRoads(i).getB().getNameLocation())][help.indexOf(p.getRoads(i).getA().getNameLocation())]=p.getRoads(i).getLength()/p.getRoads(i).getSpeed();
             //end new
         }
         solve(p);

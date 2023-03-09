@@ -33,7 +33,7 @@ public class Solution {
             if (matrixLength[sol.indexOf(i.getNameLocation())][sol.indexOf(j.getNameLocation())] == 0.0) {
                 sd.append(" DOES NOT EXIST!");
             } else {
-                sd.append(" HAS THE MINIMUM LENGTH: ");
+                sd.append(" HAS THE MINIMUM LENGTH (IN KM) : ");
                 sd.append(matrixLength[sol.indexOf(i.getNameLocation())][sol.indexOf(j.getNameLocation())]);
             }
             System.out.println(sd);
@@ -50,7 +50,7 @@ public class Solution {
             if (matrixFastest[sol.indexOf(i.getNameLocation())][sol.indexOf(j.getNameLocation())] == 0.0) {
                 sd.append(" DOES NOT EXIST!");
             } else {
-                sd.append(" HAS THE SHORTEST TIME: ");
+                sd.append(" HAS THE SHORTEST TIME (IN HOURS): ");
                 sd.append(matrixFastest[sol.indexOf(i.getNameLocation())][sol.indexOf(j.getNameLocation())]);
             }
             System.out.println(sd);
