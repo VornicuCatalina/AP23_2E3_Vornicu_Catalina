@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Algorithm {
     private double[][] matrix;
     private ArrayList<String> help;
-    private boolean valid;
     private void solve(Problem p){
         for(int i=0;i< p.getNoLocation();i++){
             for(int j=i+1;j<p.getNoLocation()-1;j++){
@@ -40,11 +39,9 @@ public class Algorithm {
             sd.append(j.getNameLocation());
             if(matrix[help.indexOf(i.getNameLocation())][help.indexOf(j.getNameLocation())]==1){
                 sd.append(" EXISTS");
-                valid=true;
             }
             else{
                 sd.append(" DOES NOT EXIST");
-                valid=false;
             }
             System.out.println(sd);
         }

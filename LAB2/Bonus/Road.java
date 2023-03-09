@@ -1,13 +1,13 @@
-package LAB2.Homework;
+package LAB2.Bonus;
 
 public class Road {
     RoadType type;
     private String name;
     private double length;
-    private int speed;
+    private double speed;
     private Location a;
     private Location b;
-    public Road(String name,RoadType n, double l, int s,Location a, Location b){
+    public Road(String name, RoadType n, double l, int s, Location a, Location b){
         this.name=name;
         this.length=l;
         this.speed=s;
@@ -21,10 +21,10 @@ public class Road {
     public double getLength(){
         return length;
     }
-    public void setSpeed(int s){
+    public void setSpeed(double s){
         this.speed=s;
     }
-    public int getSpeed(){
+    public double getSpeed(){
         return speed;
     }
     public void setName(String n){

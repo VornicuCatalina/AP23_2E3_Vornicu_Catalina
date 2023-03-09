@@ -36,8 +36,15 @@ return <stuff>;
 BUT i used another idea; for every location , it will be turned into a value (the value from their string) ; and i will work with a matrix that will solve all the stuff:
 	-firstly, it will add the 1 values to the indexes where there is a connection (obvious from the road, its neighboors) 
 	-secondly, it will add the other inductive connections so the search will be must faster
++ doc comments use /** */
 
 ---------------
 *****BONUS*****
 ---------------
-+ 
++ In solution i solve the main idea of this problem, take 2 locations and say shortest time or shortest path
+while in Algorithm i have a solution object that will be returned in the end so i can connect Solution and Algorithm without needing an abstract class or inheritence
++I implemented both of them by using matrices:
+	- one for length and another for speed*length(for getting the time)
+	- then i just used dijkstra algorithm on them and returned the value in solution instance
+	- for seeing connections between them, i could just use 2 locations as instances and just checking the matrices from Solution which are implemented by using the arrays from Algorithm
++ I just copied the code from the teacher's slides
