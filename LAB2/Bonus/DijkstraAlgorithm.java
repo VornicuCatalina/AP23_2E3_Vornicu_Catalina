@@ -14,8 +14,8 @@ public class DijkstraAlgorithm extends Algorithm {
         matrix=new int[p.getNoLocation()][p.getNoLocation()];
         //new
         s.setMatrices(p.getNoLocation()); //initializing the matrices in Solution
-        matrixLength=new double[p.getNoLocation()][p.getNoLocation()];
-        matrixFast=new double[p.getNoLocation()][p.getNoLocation()];
+        matrixLength=new double[p.getNoLocation()+1][p.getNoLocation()+1];
+        matrixFast=new double[p.getNoLocation()+1][p.getNoLocation()+1];
         for(int j=0;j<p.getNoLocation();j++){
             matrixLength[j][j]=Double.POSITIVE_INFINITY;
             matrixFast[j][j]=Double.POSITIVE_INFINITY;
