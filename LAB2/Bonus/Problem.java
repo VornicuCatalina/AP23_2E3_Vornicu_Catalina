@@ -39,12 +39,14 @@ public class Problem {
     }
     public void setRoads(Road roads) {
         if(noRoads<nrroad) {
-            if(checker(roads.getA().getNameLocation())&&checker(roads.getB().getNameLocation())){
+            String locationA=roads.getA().getNameLocation();
+            String locationB=roads.getB().getNameLocation();
+            if(checker(locationA)&&checker(locationB)){
                 if(roads.getA().equals(roads.getB())){
                     System.err.println("YOU MUST SPECIFY 2 DIFFERENT LOCATIONS");
                 }
                 else{
-                    if(noRepeating(roads.getA().getNameLocation(),roads.getB().getNameLocation())){
+                    if(noRepeating(locationA,locationB)){
                         if(coordinates(roads.getA().getX(),roads.getB().getX(),roads.getA().getY(),roads.getB().getY(),roads.getLength())){
 
                             if(checkerRoad(roads)){
@@ -75,20 +77,22 @@ public class Problem {
     }
     public boolean checker(String n){
         for(int i=0;i<noLocation;i++){
-            if(n.equals(locations[i].getNameLocation())){
+            if(n.equals(locations[i].getNameLocation())){ //has not been declared before
                 return true;
             }
         }
         return false;
     }
-    public boolean noRepeating(String a,String b){
+    public boolean noRepeating(String a,String b){ //checking if the locations that are connected through a road have been connected before by
+        //another road
         for(int i=0;i<noRoads;i++){
             if(roads[i].getA().getNameLocation().equals(a)&&roads[i].getB().getNameLocation().equals(b))
                 return false;
         }
         return true;
     }
-    public boolean checkCoordinates(int cordX,int cordY){
+    public boolean checkCoordinates(int cordX,int cordY){ //if the coordinates were already used
+        //because 2 locations cannot have the exact coordinates for both X and Y axis
         for(int i=0;i<noLocation;i++){
             if(locations[i].getX()==cordX && locations[i].getY()==cordY){
                 return false;
@@ -97,13 +101,13 @@ public class Problem {
         return true;
     }
     public boolean coordinates(int cordX1,int cordY1, int cordX2, int cordY2, double distance){
-        double d=Math.sqrt(Math.pow(cordX2-cordX1,2)+Math.pow(cordY2-cordY1,2));
+        double d=Math.sqrt(Math.pow(cordX2-cordX1,2)+Math.pow(cordY2-cordY1,2)); //formula for distance
         if(d<=distance){
             return true;
         }
         return false;
     }
-    public boolean checkerLocation(Location loc) {
+    public boolean checkerLocation(Location loc) { //if it was already declared
         for (int i = 0; i < noLocation; i++) {
             if (loc.equals(locations[i])) {
                 return false;
@@ -111,7 +115,7 @@ public class Problem {
         }
         return true;
     }
-    public boolean checkerRoad(Road road) {
+    public boolean checkerRoad(Road road) { //if it was already declared
         for (int i = 0; i < noRoads; i++) {
             if (road.equals(roads[i])) {
                 return false;

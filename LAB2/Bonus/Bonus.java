@@ -28,7 +28,7 @@ public class Bonus {
         Algorithm a=new DijkstraAlgorithm(p);
         Solution sol=a.solve();
         System.out.println(sol);
-        sol.MinLength(l1,l2,p);
+        sol.MinLength(l1,l3,p);
         sol.ShortestTime(l2,l3,p);
         long runningTime = System.currentTimeMillis() - initialTime;
         long usedMemoryAfter = runtime.totalMemory() - runtime.freeMemory();

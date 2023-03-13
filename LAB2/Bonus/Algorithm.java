@@ -9,7 +9,7 @@ public abstract class Algorithm {
     //new
     protected double[][] matrixLength;
     protected double[][] matrixFast;
-    protected void solve(Problem p){
+    protected void solve(Problem p){ //used to created the connections between locations that are mentioned in the main function
         for(int i=0;i< p.getNoLocation();i++){
             for(int j=i+1;j<p.getNoLocation()-1;j++){
                 if(matrix[i][j]==1){
@@ -30,7 +30,7 @@ public abstract class Algorithm {
         int j;
         int k;
         int helper;
-        double[] vector=new double[n];
+        double[] vector=new double[n+1];
         double[] destination=new double[n+1];
         while(i<n){
             for(j=0;j<n;j++){
@@ -85,12 +85,13 @@ public abstract class Algorithm {
         }
     }
     public void existenceOfRoute(Location i,Location j,Problem p){
-        if(!(p.checkerLocation(i))&&!(p.checkerLocation(j))){
+        if(!(p.checkerLocation(i))&&!(p.checkerLocation(j))){ //if both locations exist
             StringBuilder sd=new StringBuilder("The route from ");
             sd.append(i.getNameLocation());
             sd.append(" to ");
             sd.append(j.getNameLocation());
             if(matrix[help.indexOf(i.getNameLocation())][help.indexOf(j.getNameLocation())]==1){
+                //accessing the matrix using the property of ArrayList
                 sd.append(" EXISTS");
             }
             else{
@@ -105,5 +106,5 @@ public abstract class Algorithm {
     }
     public Solution solve(){
         return s;
-    }
+    } //returning Solution object so we do not have to declare it in main by creating a new object
 }
