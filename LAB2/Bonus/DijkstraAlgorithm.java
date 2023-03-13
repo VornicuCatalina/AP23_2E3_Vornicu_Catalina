@@ -6,20 +6,21 @@ public class DijkstraAlgorithm extends Algorithm {
     //for implementing the subclass of algorithm
     public DijkstraAlgorithm(Problem p){
         s=new Solution(); //creating the solution object
-        help=new ArrayList<>(p.getNoLocation());
-        for(int j=0;j<p.getNoLocation();j++){
+        int noOfLocations=p.getNoLocation();
+        help=new ArrayList<>(noOfLocations);
+        for(int j=0;j<noOfLocations;j++){
             help.add(p.getLocations(j).getNameLocation());
         }
-        s.setSol(help, p.getNoLocation()); //adding the locations in a <string> arraylist
-        matrix=new int[p.getNoLocation()][p.getNoLocation()];
+        s.setSol(help, noOfLocations); //adding the locations in a <string> arraylist
+        matrix=new int[noOfLocations][noOfLocations];
         //new
-        s.setMatrices(p.getNoLocation()); //initializing the matrices in Solution
-        matrixLength=new double[p.getNoLocation()+1][p.getNoLocation()+1];
-        matrixFast=new double[p.getNoLocation()+1][p.getNoLocation()+1];
-        for(int j=0;j<p.getNoLocation();j++){
+        s.setMatrices(noOfLocations); //initializing the matrices in Solution
+        matrixLength=new double[noOfLocations+1][noOfLocations+1];
+        matrixFast=new double[noOfLocations+1][noOfLocations+1];
+        for(int j=0;j<noOfLocations;j++){
             matrixLength[j][j]=Double.POSITIVE_INFINITY;
             matrixFast[j][j]=Double.POSITIVE_INFINITY;
-            for(int k=j+1;k<p.getNoLocation();k++){
+            for(int k=j+1;k<noOfLocations;k++){
                 matrixLength[j][k]=Double.POSITIVE_INFINITY;
                 matrixLength[k][j]=Double.POSITIVE_INFINITY;
                 matrixFast[j][k]=Double.POSITIVE_INFINITY;
