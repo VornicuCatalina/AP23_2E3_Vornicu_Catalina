@@ -2,7 +2,7 @@ package LAB3.Bonus;
 
 public class Bonus {
     public static void main(String[] args) {
-        Network network=new Network();
+        Network network=new Network(); //
         Node node=new Company("bae");
         Node n=new Company("nume");
         Node m=new Company("baka");
