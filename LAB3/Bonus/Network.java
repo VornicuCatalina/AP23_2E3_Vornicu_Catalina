@@ -18,6 +18,9 @@ public class Network {
     private int[] tin;
     private int[] low;
     //end for dfs
+
+    //for last point
+    private ArrayList<Integer> cutPoint;
     public void addNode(Node n){
         nodes.add(n);
         nameNode.add(n.getName()); //to have a string to int representation
@@ -34,6 +37,7 @@ public class Network {
         //new
         if(verification){
             adjList=new ArrayList<ArrayList<Integer>>(nodes.size());
+            cutPoint=new ArrayList<>();//new
             verification=false;
         }
         //end
@@ -68,6 +72,7 @@ public class Network {
                 dfs(to,v);
                 low[v]=Math.min(low[v],low[to]);
                 if(low[to]>=tin[v] &&p!=-1){
+                    cutPoint.add(v);
                     valid=false;
                 }
                 ++children;
@@ -75,6 +80,7 @@ public class Network {
 
         }
         if(p==-1 && children>1) {
+            cutPoint.add(v);
             valid = false;
         }
     }
@@ -90,7 +96,7 @@ public class Network {
             tin[i]=-1;
             low[i]=-1;
         }
-        for(int i=0;i<noNodes&&valid==true;++i){
+        for(int i=0;i<noNodes;++i){
             if(!visited[i])
                 dfs(i,-1);
         }
@@ -130,6 +136,9 @@ public class Network {
             }
         System.out.println("\nFinding cycles");
         printCycle( noNodes);
+        System.out.println("\nUsing cut points");
+        for(int i=0;i<cutPoint.size();i++)
+            cutPointMaster(cutPoint.get(i));
     }
     public void printCycle(int v){
         Stack<Integer> path=new Stack<Integer>();
@@ -162,6 +171,33 @@ public class Network {
             }
         }
             p.pop();
+    }
+
+    //for showing whatever has those cutpoints
+    public void cutPointMaster(int v){
+        Stack<Integer> stack=new Stack<Integer>();
+        boolean []visited=new boolean[nodes.size()];
+        dfsPoint(v,visited,stack);
+    }
+
+    void dfsPoint(int v,boolean visited[],Stack<Integer> p){
+        // Mark the current node as visited and print it
+        visited[v] = true;
+        p.push(v);
+        if(p.size()>2){
+            for(int j=0;j<p.size();j++){
+                System.out.print(nameNode.get(p.get(j)) + " ");
+            }
+            System.out.println();
+        }
+        Iterator<Integer> i = adjList.get(v).listIterator();
+        while (i.hasNext()) {
+            int n = i.next();
+            if (!visited[n]) {
+                dfsPoint(n, visited, p);
+            }
+        }
+        p.pop();
     }
 }
 
