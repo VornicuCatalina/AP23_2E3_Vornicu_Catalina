@@ -3,11 +3,11 @@ package LAB3.Bonus;
 import java.util.*;
 
 public class Network {
-    private List<Node> nodes=new ArrayList<>();
+    private List<Node> nodes = new ArrayList<>();
     //new
-    private boolean verification=true;
-    private ArrayList<ArrayList<Integer> > adjList;
-    private ArrayList<String> nameNode=new ArrayList<>();
+    private boolean verification = true;
+    private ArrayList<ArrayList<Integer>> adjList;
+    private ArrayList<String> nameNode = new ArrayList<>();
     //end
 
     //for dfs and stuff
@@ -21,29 +21,33 @@ public class Network {
 
     //for last point
     private ArrayList<Integer> cutPoint;
-    public void addNode(Node n){
+
+    public void addNode(Node n) {
         nodes.add(n);
         nameNode.add(n.getName()); //to have a string to int representation
     }
-    public void sortNodes(){
-        Collections.sort(nodes,new Sort());
+
+    public void sortNodes() {
+        Collections.sort(nodes, new Sort());
     }
-    public void print(){
-        for(Node node: nodes) {
+
+    public void print() {
+        for (Node node : nodes) {
             System.out.println(node.getName());
         }
     }
-    private void creatingAdjMatrix(){
+
+    private void creatingAdjMatrix() {
         //new
-        if(verification){
-            adjList=new ArrayList<ArrayList<Integer>>(nodes.size());
-            cutPoint=new ArrayList<>();//new
-            verification=false;
+        if (verification) {
+            adjList = new ArrayList<ArrayList<Integer>>(nodes.size());
+            cutPoint = new ArrayList<>();//new
+            verification = false;
         }
         //end
-        for(Node node:nodes){
+        for (Node node : nodes) {
             ArrayList<Integer> adjJr = new ArrayList<Integer>();
-            for(Node key:node.getMap().keySet()){
+            for (Node key : node.getMap().keySet()) {
                 adjJr.add(nameNode.indexOf(key.getName())); //the mini arraylist used to create the final one (a matrix somehow)
             }
             adjList.add(adjJr);
@@ -51,7 +55,7 @@ public class Network {
         sus();
     }
 
-    public void sus(){
+    public void sus() {
         for (int i = 0; i < adjList.size(); i++)
             for (int j = 0; j < adjList.get(i).size(); j++) {
                 if (!adjList.get(j).contains(i) && i != j)
@@ -60,50 +64,50 @@ public class Network {
     }
 
     //here the programs for dfs
-    public void dfs(int v,int p){
-        visited[v]=true;
-        tin[v]=low[v]=timer++;
-        int children=0;
-        for(int to : adjList.get(v)){
-            if(to==p) continue;
-            if(visited[to]){
-                low[v]=Math.min(low[v],tin[to]);
-            }else{
-                dfs(to,v);
-                low[v]=Math.min(low[v],low[to]);
-                if(low[to]>=tin[v] &&p!=-1){
+    public void dfs(int v, int p) {
+        visited[v] = true;
+        tin[v] = low[v] = timer++;
+        int children = 0;
+        for (int to : adjList.get(v)) {
+            if (to == p) continue;
+            if (visited[to]) {
+                low[v] = Math.min(low[v], tin[to]);
+            } else {
+                dfs(to, v);
+                low[v] = Math.min(low[v], low[to]);
+                if (low[to] >= tin[v] && p != -1) {
                     cutPoint.add(v);
-                    valid=false;
+                    valid = false;
                 }
                 ++children;
             }
 
         }
-        if(p==-1 && children>1) {
+        if (p == -1 && children > 1) {
             cutPoint.add(v);
             valid = false;
         }
     }
-    public void findCutPoints(){
+
+    public void findCutPoints() {
         creatingAdjMatrix();
-        noNodes=nodes.size();
-        valid=true;
-        visited=new boolean[noNodes];
-        tin=new int[noNodes];
-        low=new int[noNodes];
-        for(int i=0;i<noNodes;i++){
-            visited[i]=false;
-            tin[i]=-1;
-            low[i]=-1;
+        noNodes = nodes.size();
+        valid = true;
+        visited = new boolean[noNodes];
+        tin = new int[noNodes];
+        low = new int[noNodes];
+        for (int i = 0; i < noNodes; i++) {
+            visited[i] = false;
+            tin[i] = -1;
+            low[i] = -1;
         }
-        for(int i=0;i<noNodes;++i){
-            if(!visited[i])
-                dfs(i,-1);
+        for (int i = 0; i < noNodes; ++i) {
+            if (!visited[i])
+                dfs(i, -1);
         }
-        if(valid){
+        if (valid) {
             System.out.println("No nodes that disconnect the network");
-        }
-        else{
+        } else {
             System.out.println("There are nodes who disconnect the network");
         }
     }
@@ -121,7 +125,7 @@ public class Network {
 
     //I will use different functions for this problem so i will not have to modify the ones from above
 
-    public void showingSubgraph(){
+    public void showingSubgraph() {
         //variables
         int index;
         //first of all i am going to start with the nodes
@@ -130,27 +134,29 @@ public class Network {
         System.out.println("\nContaining two nodes");
         for (int i = 0; i < adjList.size(); i++)
             for (int j = 0; j < adjList.get(i).size(); j++) {
-                index=adjList.get(i).get(j);
-                if (index>i)
-                    System.out.println(nameNode.get(index) +"-"+nameNode.get(i));
+                index = adjList.get(i).get(j);
+                if (index > i)
+                    System.out.println(nameNode.get(index) + "-" + nameNode.get(i));
             }
         System.out.println("\nFinding cycles");
-        printCycle( noNodes);
+        printCycle(noNodes);
         System.out.println("\nUsing cut points");
-        for(int i=0;i<cutPoint.size();i++)
+        for (int i = 0; i < cutPoint.size(); i++)
             cutPointMaster(cutPoint.get(i));
     }
-    public void printCycle(int v){
-        Stack<Integer> path=new Stack<Integer>();
-        boolean []visited=new boolean[v];
-        for(int i=0;i<visited.length;i++){
-                dfsFinder(i,visited,path);
-            for(int j=0;j<visited.length;j++){
-                visited[j]=false;
+
+    public void printCycle(int v) {
+        Stack<Integer> path = new Stack<Integer>();
+        boolean[] visited = new boolean[v];
+        for (int i = 0; i < visited.length; i++) {
+            dfsFinder(i, visited, path);
+            for (int j = 0; j < visited.length; j++) {
+                visited[j] = false;
             }
         }
     }
-    void dfsFinder(int v,boolean visited[],Stack<Integer> p){
+
+    void dfsFinder(int v, boolean visited[], Stack<Integer> p) {
         // Mark the current node as visited and print it
         visited[v] = true;
         p.push(v);
@@ -159,33 +165,32 @@ public class Network {
             int n = i.next();
             if (!visited[n]) {
                 dfsFinder(n, visited, p);
-            }
-            else {
+            } else {
                 int idx = p.search(n);
-                if (idx != -1 && idx >=3) {
-                    for (int j = idx-1; j >= 0; j--) {
+                if (idx != -1 && idx >= 3) {
+                    for (int j = idx - 1; j >= 0; j--) {
                         System.out.print(nameNode.get(p.get(j)) + " ");
                     }
-                    System.out.println(nameNode.get(p.get(idx-1)));
+                    System.out.println(nameNode.get(p.get(idx - 1)));
                 }
             }
         }
-            p.pop();
+        p.pop();
     }
 
     //for showing whatever has those cutpoints
-    public void cutPointMaster(int v){
-        Stack<Integer> stack=new Stack<Integer>();
-        boolean []visited=new boolean[nodes.size()];
-        dfsPoint(v,visited,stack);
+    public void cutPointMaster(int v) {
+        Stack<Integer> stack = new Stack<Integer>();
+        boolean[] visited = new boolean[nodes.size()];
+        dfsPoint(v, visited, stack);
     }
 
-    void dfsPoint(int v,boolean visited[],Stack<Integer> p){
+    void dfsPoint(int v, boolean visited[], Stack<Integer> p) {
         // Mark the current node as visited and print it
         visited[v] = true;
         p.push(v);
-        if(p.size()>2){
-            for(int j=0;j<p.size();j++){
+        if (p.size() > 2) {
+            for (int j = 0; j < p.size(); j++) {
                 System.out.print(nameNode.get(p.get(j)) + " ");
             }
             System.out.println();
