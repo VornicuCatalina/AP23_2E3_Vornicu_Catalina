@@ -1,4 +1,4 @@
-package org.lab4.compulsory;
+package compulsory;
 
 public class Project implements Comparable<Project> {
     private String name;
@@ -6,9 +6,11 @@ public class Project implements Comparable<Project> {
     public Project(String name) {
         this.name = name;
     }
-    public String getName(){
+
+    public String getName() {
         return name;
     }
+
     @Override
     public int compareTo(Project other) {
         return this.name.compareTo(other.name);
