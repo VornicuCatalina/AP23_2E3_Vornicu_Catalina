@@ -17,14 +17,14 @@ public class Homework {
                 .mapToObj(i -> new Project("P" + i))
                 .toArray(Project[]::new);
         StudentProjectAllocation studentProjectAllocation = new StudentProjectAllocation();
-        studentProjectAllocation.addPrefMap(students[0], Arrays.asList(projects[0], projects[1], projects[2]));
-        studentProjectAllocation.addPrefMap(students[0], Arrays.asList(projects[3]));
+
         for (Student s : students) {
             studentsList.add(s);
         }
 
         Map<Student, List<Project>> prefMap = new HashMap<>();
         prefMap.put(students[0], Arrays.asList(projects[0], projects[1], projects[2]));
+        studentProjectAllocation.addPrefMap(students[0], Arrays.asList(projects[0], projects[1], projects[2]));
         studentProjectAllocation.printStudents();
         /*
         List<Project> target = Arrays.asList(projects[1], projects[2]);
@@ -50,5 +50,8 @@ public class Homework {
         for (Project p : projects2) {
             System.out.println(p.getName());
         }
+        studentProjectAllocation.addPrefMap(students[1], Arrays.asList(projects[0],projects[1]));
+        studentProjectAllocation.addPrefMap(students[2],Arrays.asList(projects[0]));
+        studentProjectAllocation.greedyAlg();
     }
 }
