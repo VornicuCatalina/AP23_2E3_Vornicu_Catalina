@@ -64,13 +64,13 @@ We consider the problem of creating a maximum cardinality matching between stude
                 })
                 .collect(Collectors.toList());
         for (int i = 0; i < students.size(); i++) {
-            System.out.println(students.get(i).getName() + " - "+matching.get(i).getName());
+            System.out.println(students.get(i).getName() + " - " + matching.get(i).getName());
         }
-        for(int i=0;i<verification.length;i++){
-            if(verification[i]==0){
-                for(Student s:students){
-                    if(prefMap.get(s).contains(projectsList.get(i))){
-                        System.out.println(s.getName()+ " - "+projectsList.get(i).getName());
+        for (int i = 0; i < verification.length; i++) {
+            if (verification[i] == 0) {
+                for (Student s : students) {
+                    if (prefMap.get(s).contains(projectsList.get(i))) {
+                        System.out.println(s.getName() + " - " + projectsList.get(i).getName());
                         break;
                     }
                 }
