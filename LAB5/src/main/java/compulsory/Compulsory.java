@@ -15,11 +15,11 @@ public class Compulsory {
         var article = new Document("book1", "article", "C:/Users/User/Documents/Advanced Programming/article.txt", "das24");
         catalog.add(book);
         catalog.add(article);
-        CatalogUtil.save(catalog, "C:/Users/User/Documents/Advanced Programming/catalog.json");
+        CatalogUtil.saveBinary(catalog, "C:/Users/User/Documents/Advanced Programming/catalog.json");
     }
 
     private void testLoadView() throws InvalidCatalogException, IOException {
-        Catalog catalog = CatalogUtil.load("C:/Users/User/Documents/Advanced Programming/catalog.json");
+        Catalog catalog = CatalogUtil.loadBinary("C:/Users/User/Documents/Advanced Programming/catalog.json");
         System.out.println(catalog.toString());
     }
 }

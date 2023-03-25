@@ -5,12 +5,6 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class StudentProjectAllocation {
-    /*
-    An instance of this problem consists of students and projects. Each student has a list of projects that are admissible.
-A matching is a set of pairs (student, project) such that each student
-is assigned to at most one project and each project is assigned to at most one student.
-We consider the problem of creating a maximum cardinality matching between students and projects.
-     */
     private Map<Student, List<Project>> prefMap = new HashMap<>();
     private LinkedList<Student> students = new LinkedList<>();
     private LinkedList<Project> projectsList = new LinkedList<>();
