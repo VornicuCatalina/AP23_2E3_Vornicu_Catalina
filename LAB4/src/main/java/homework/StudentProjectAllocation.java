@@ -69,8 +69,9 @@ We consider the problem of creating a maximum cardinality matching between stude
         for (int i = 0; i < verification.length; i++) {
             if (verification[i] == 0) {
                 for (Student s : students) {
-                    if (prefMap.get(s).contains(projectsList.get(i))) {
-                        System.out.println(s.getName() + " - " + projectsList.get(i).getName());
+                    Project helper = projectsList.get(i);
+                    if (prefMap.get(s).contains(helper)) {
+                        System.out.println(s.getName() + " - " + helper.getName());
                         break;
                     }
                 }
