@@ -1,7 +1,16 @@
-package homework;
+package bonus;
 
-import java.util.*;
-import java.util.function.Consumer;
+import org.jgrapht.Graph;
+import org.jgrapht.alg.interfaces.MatchingAlgorithm;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.DefaultUndirectedGraph;
+import org.jgrapht.alg.matching.DenseEdmondsMaximumCardinalityMatching;
+
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class StudentProjectAllocation {
@@ -17,6 +26,10 @@ We consider the problem of creating a maximum cardinality matching between stude
     private int[] verification;
     private int numberOfPreferences = 0;
 
+    //new
+    private Graph<String,DefaultEdge> graphJGraphT = new DefaultUndirectedGraph<>(DefaultEdge.class);
+    //end
+
     private Map<Student, Integer> preferences = new HashMap<>();
 
     public void addPrefMap(Student student, List<Project> projects) {
@@ -24,6 +37,9 @@ We consider the problem of creating a maximum cardinality matching between stude
         if (!students.contains(student)) {
             students.add(student);
             preferences.put(student, projects.size());
+
+            //adding in the graph
+            graphJGraphT.addVertex(student.getName());
         } else {
             preferences.replace(student, preferences.get(student) + projects.size());
         }
@@ -31,7 +47,12 @@ We consider the problem of creating a maximum cardinality matching between stude
         for (Project p : projects) {
             if (!projectsList.contains(p)) {
                 projectsList.add(p);
+
+                //adding in the graph
+                graphJGraphT.addVertex(p.getName());
             }
+            //adding edge
+            graphJGraphT.addEdge(student.getName(),p.getName());
         }
     }
 
@@ -76,5 +97,10 @@ We consider the problem of creating a maximum cardinality matching between stude
                 }
             }
         }
+    }
+    public void matchingJGraphT(){
+        DenseEdmondsMaximumCardinalityMatching<String,DefaultEdge> graphHelper = new DenseEdmondsMaximumCardinalityMatching<>(graphJGraphT);
+        MatchingAlgorithm.Matching<String,DefaultEdge> newGraph= graphHelper.getMatching();
+        System.out.println(newGraph);
     }
 }
