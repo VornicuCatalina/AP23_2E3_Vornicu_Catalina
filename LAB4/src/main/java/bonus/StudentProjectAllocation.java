@@ -8,10 +8,7 @@ import org.jgrapht.graph.DefaultUndirectedGraph;
 import org.jgrapht.alg.matching.DenseEdmondsMaximumCardinalityMatching;
 import org.graph4j.*;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class StudentProjectAllocation {
@@ -27,6 +24,7 @@ public class StudentProjectAllocation {
     //end
 
     private Map<Student, Integer> preferences = new HashMap<>();
+    private Map<Project, Integer> assignations = new HashMap<>();
 
     public void addPrefMap(Student student, List<Project> projects) {
         prefMap.put(student, projects);
@@ -46,10 +44,15 @@ public class StudentProjectAllocation {
             if (!projectsList.contains(p)) {
                 projectsList.add(p);
 
+                assignations.put(p,1);
+
                 //adding in the graph
                 String project = p.getName();
                 graphJGraphT.addVertex(project);
                 graphGraph4J.addVertex(project);
+            }
+            else{
+                assignations.replace(p,assignations.get(p)+1);
             }
             //adding edge
             String stud = student.getName();
@@ -113,4 +116,55 @@ public class StudentProjectAllocation {
         System.out.println(solution);
     }
 
+    //Determine a minimum cardinality set formed of students and projects
+    // with the property that each admissible pair (student-project) contains at least an element of this set.
+
+    public void setOfMinimumCardinality(){
+        Map<Student,Integer> helperStudent=preferences.entrySet().stream().sorted((m1,m2)->m2.getValue()-m1.getValue()).collect(Collectors.toMap(
+                Map.Entry::getKey,
+                Map.Entry::getValue,
+                (oldValue,newValue)->oldValue,LinkedHashMap::new
+        ));
+
+        Map<Project,Integer> helperProject=assignations.entrySet().stream().sorted((m1,m2)->m2.getValue()-m1.getValue()).collect(Collectors.toMap(
+                Map.Entry::getKey,
+                Map.Entry::getValue,
+                (oldValue,newValue)->oldValue,LinkedHashMap::new
+        ));
+
+        //now creating one long array that will help me to check who is verified / added to the final solution
+        LinkedList<String> finalSet=new LinkedList<>(); //I will just use the name of them
+
+        //creating 2 arrays specially used for checking only the unused variables
+        int[] studs=new int[students.size()];
+        int[] projs=new int[projectsList.size()];
+
+        /*
+        I need a while that is going to check whether i found the minimum set or not using ok variable
+        each time, i will just check as 1 the ones that were used
+        each time, i will compare who has more matches than the other (matches of 0)
+         */
+
+        /*int ok=3;
+        while(ok>0){
+            switch (ok){
+                case 3:
+
+                    break;
+                case 2:
+                    break;
+                case 1:
+                    break;
+                default:
+            }
+        }*/
+        /*
+        for(Student s:helperStudent.keySet()){
+            System.out.println(s.getName()+" "+helperStudent.get(s));
+        }
+        for(Project p:helperProject.keySet()){
+            System.out.println(p.getName()+" "+helperProject.get(p));
+        }
+        */
+    }
 }

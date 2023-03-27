@@ -51,13 +51,18 @@ public class Bonus {
                     constructor.add(projects2[i]);
                 }
             }
+            if(constructor.isEmpty()){
+                constructor.add(projects2[0]);
+            }
             studentProjectAllocation1.addPrefMap(students2[i], constructor);
         }
-        studentProjectAllocation1.greedyAlg();
+        /*studentProjectAllocation1.greedyAlg();
         System.out.println();
         studentProjectAllocation1.matchingJGraphT();
         System.out.println();
-        studentProjectAllocation1.matchingJGraphT();
+        studentProjectAllocation1.matchingJGraphT();*/
+
+        studentProjectAllocation.setOfMinimumCardinality();
 
     }
 }
