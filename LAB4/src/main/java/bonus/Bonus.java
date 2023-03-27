@@ -29,6 +29,8 @@ public class Bonus {
         studentProjectAllocation.greedyAlg();
         System.out.println();
         studentProjectAllocation.matchingJGraphT();
+        System.out.println();
+        studentProjectAllocation.matchingGraph4J();
 
 
         StudentProjectAllocation studentProjectAllocation1 = new StudentProjectAllocation();
@@ -54,5 +56,8 @@ public class Bonus {
         studentProjectAllocation1.greedyAlg();
         System.out.println();
         studentProjectAllocation1.matchingJGraphT();
+        System.out.println();
+        studentProjectAllocation1.matchingJGraphT();
+
     }
 }

@@ -1,11 +1,13 @@
 package bonus;
 
+import org.graph4j.alg.matching.HopcroftKarpMaximumMatching;
 import org.jgrapht.Graph;
 import org.jgrapht.alg.interfaces.MatchingAlgorithm;
+import org.jgrapht.alg.matching.HopcroftKarpMaximumCardinalityBipartiteMatching;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DefaultUndirectedGraph;
 import org.jgrapht.alg.matching.DenseEdmondsMaximumCardinalityMatching;
-
+import org.graph4j.*;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -14,12 +16,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class StudentProjectAllocation {
-    /*
-    An instance of this problem consists of students and projects. Each student has a list of projects that are admissible.
-A matching is a set of pairs (student, project) such that each student
-is assigned to at most one project and each project is assigned to at most one student.
-We consider the problem of creating a maximum cardinality matching between students and projects.
-     */
     private Map<Student, List<Project>> prefMap = new HashMap<>();
     private LinkedList<Student> students = new LinkedList<>();
     private LinkedList<Project> projectsList = new LinkedList<>();
@@ -28,6 +24,7 @@ We consider the problem of creating a maximum cardinality matching between stude
 
     //new
     private Graph<String, DefaultEdge> graphJGraphT = new DefaultUndirectedGraph<>(DefaultEdge.class);
+    private org.graph4j.Graph graphGraph4J = GraphBuilder.numVertices(1000).buildGraph();
     //end
 
     private Map<Student, Integer> preferences = new HashMap<>();
@@ -39,7 +36,9 @@ We consider the problem of creating a maximum cardinality matching between stude
             preferences.put(student, projects.size());
 
             //adding in the graph
-            graphJGraphT.addVertex(student.getName());
+            String name = student.getName();
+            graphJGraphT.addVertex(name);
+            graphGraph4J.addVertex(name);
         } else {
             preferences.replace(student, preferences.get(student) + projects.size());
         }
@@ -49,10 +48,15 @@ We consider the problem of creating a maximum cardinality matching between stude
                 projectsList.add(p);
 
                 //adding in the graph
-                graphJGraphT.addVertex(p.getName());
+                String project = p.getName();
+                graphJGraphT.addVertex(project);
+                graphGraph4J.addVertex(project);
             }
             //adding edge
-            graphJGraphT.addEdge(student.getName(), p.getName());
+            String stud = student.getName();
+            String proj = p.getName();
+            graphJGraphT.addEdge(stud, proj);
+            graphGraph4J.addEdge(stud, proj);
         }
     }
 
@@ -90,9 +94,8 @@ We consider the problem of creating a maximum cardinality matching between stude
         for (int i = 0; i < verification.length; i++) {
             if (verification[i] == 0) {
                 for (Student s : students) {
-                    Project helper = projectsList.get(i);
-                    if (prefMap.get(s).contains(helper)) {
-                        System.out.println(s.getName() + " - " + helper.getName());
+                    if (prefMap.get(s).contains(projectsList.get(i))) {
+                        System.out.println(s.getName() + " - " + projectsList.get(i).getName());
                         break;
                     }
                 }
@@ -105,4 +108,10 @@ We consider the problem of creating a maximum cardinality matching between stude
         MatchingAlgorithm.Matching<String, DefaultEdge> newGraph = graphHelper.getMatching();
         System.out.println(newGraph);
     }
+
+    public void matchingGraph4J() {
+        HopcroftKarpMaximumMatching solution = new HopcroftKarpMaximumMatching(graphGraph4J);
+        System.out.println(solution);
+    }
+
 }
