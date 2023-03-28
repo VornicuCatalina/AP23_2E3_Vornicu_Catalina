@@ -12,7 +12,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class StudentProjectAllocation {
-    private Map<Student, List<Project>> prefMap = new HashMap<>();
+    private Map<Student, List<Project>> prefMap = new LinkedHashMap<>();
+
+    private Map<Project, List<Student>> assignMap = new LinkedHashMap<>(); //to help me
     private LinkedList<Student> students = new LinkedList<>();
     private LinkedList<Project> projectsList = new LinkedList<>();
     private int[] verification;
@@ -23,8 +25,8 @@ public class StudentProjectAllocation {
     private org.graph4j.Graph graphGraph4J = GraphBuilder.numVertices(1000).buildGraph();
     //end
 
-    private Map<Student, Integer> preferences = new HashMap<>();
-    private Map<Project, Integer> assignations = new HashMap<>();
+    private Map<Student, Integer> preferences = new LinkedHashMap<>();
+    private Map<Project, Integer> assignations = new LinkedHashMap<>();
 
     public void addPrefMap(Student student, List<Project> projects) {
         prefMap.put(student, projects);
@@ -44,15 +46,14 @@ public class StudentProjectAllocation {
             if (!projectsList.contains(p)) {
                 projectsList.add(p);
 
-                assignations.put(p,1);
+                assignations.put(p, 1);
 
                 //adding in the graph
                 String project = p.getName();
                 graphJGraphT.addVertex(project);
                 graphGraph4J.addVertex(project);
-            }
-            else{
-                assignations.replace(p,assignations.get(p)+1);
+            } else {
+                assignations.replace(p, assignations.get(p) + 1);
             }
             //adding edge
             String stud = student.getName();
@@ -119,52 +120,93 @@ public class StudentProjectAllocation {
     //Determine a minimum cardinality set formed of students and projects
     // with the property that each admissible pair (student-project) contains at least an element of this set.
 
-    public void setOfMinimumCardinality(){
-        Map<Student,Integer> helperStudent=preferences.entrySet().stream().sorted((m1,m2)->m2.getValue()-m1.getValue()).collect(Collectors.toMap(
-                Map.Entry::getKey,
-                Map.Entry::getValue,
-                (oldValue,newValue)->oldValue,LinkedHashMap::new
-        ));
+    public void helperMap() {
+        for (Project p : projectsList) {
+            LinkedList<Student> helper = new LinkedList<>();
+            for (Student s : students) {
+                if (prefMap.get(s).contains(p)) {
+                    helper.add(s);
+                }
+            }
+            assignMap.put(p, helper);
+        }
+    }
 
-        Map<Project,Integer> helperProject=assignations.entrySet().stream().sorted((m1,m2)->m2.getValue()-m1.getValue()).collect(Collectors.toMap(
-                Map.Entry::getKey,
-                Map.Entry::getValue,
-                (oldValue,newValue)->oldValue,LinkedHashMap::new
-        ));
+    public void setOfMinimumCardinality() {
 
         //now creating one long array that will help me to check who is verified / added to the final solution
-        LinkedList<String> finalSet=new LinkedList<>(); //I will just use the name of them
+        LinkedList<String> finalSet = new LinkedList<>(); //I will just use the name of them
 
         //creating 2 arrays specially used for checking only the unused variables
-        int[] studs=new int[students.size()];
-        int[] projs=new int[projectsList.size()];
+        int[] studs = new int[students.size()];
+        int[] projs = new int[projectsList.size()];
+        LinkedList<Integer> projVal = new LinkedList<>(assignations.values());
+        LinkedList<Integer> studVal = new LinkedList<>(preferences.values());
+        //works
+        helperMap();
 
-        /*
-        I need a while that is going to check whether i found the minimum set or not using ok variable
-        each time, i will just check as 1 the ones that were used
-        each time, i will compare who has more matches than the other (matches of 0)
-         */
-
-        /*int ok=3;
-        while(ok>0){
-            switch (ok){
-                case 3:
-
-                    break;
-                case 2:
-                    break;
-                case 1:
-                    break;
-                default:
+        boolean ok = true;
+        while (ok) {
+            ok = false;
+            int proj = Collections.max(projVal);
+            int stud = Collections.max(studVal);
+            if (proj > 0 || stud > 0) {
+                if (proj > stud) { //to check who has more neighbors
+                    //where is new -> to check them in those matrices that they were taken
+                    int idx = projVal.indexOf(proj);
+                    projs[idx] = 1; //new
+                    Project p = projectsList.get(idx);
+                    finalSet.add(p.getName());
+                    projVal.set(idx, 0);
+                    for (Student s : students) { //what student has that project -> has a lower no. of neighbors by 1
+                        if (prefMap.get(s).contains(p)) {
+                            int idx2 = students.indexOf(s);
+                            studs[idx2] = 1; //new
+                            studVal.set(idx2, studVal.get(idx2) - 1);
+                            for (Project projectHelp : projectsList) { //then checking what projects have that student -> -1
+                                if (assignMap.get(projectHelp).contains(s)) {
+                                    int idx3 = projectsList.indexOf(projectHelp);
+                                    projVal.set(idx3, projVal.get(idx3) - 1);
+                                }
+                            }
+                        }
+                    }
+                } else { //same pattern here, but in the opposite way
+                    int idx = studVal.indexOf(stud);
+                    studs[idx] = 1; //new
+                    finalSet.add(students.get(idx).getName());
+                    Student s = students.get(idx);
+                    studVal.set(idx, 0);
+                    for (Project p : projectsList) {
+                        if (assignMap.get(p).contains(s)) {
+                            int idx2 = projectsList.indexOf(p);
+                            projs[idx2] = 1; //new
+                            projVal.set(idx2, projVal.get(idx2) - 1);
+                            for (Student studentHelp : students) {
+                                if (prefMap.get(studentHelp).contains(p)) {
+                                    int idx3 = students.indexOf(studentHelp);
+                                    studVal.set(idx3, studVal.get(idx3) - 1);
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                ok = false;
             }
-        }*/
-        /*
-        for(Student s:helperStudent.keySet()){
-            System.out.println(s.getName()+" "+helperStudent.get(s));
+            for (int i = 0; i < studs.length; i++) {
+                if (studs[i] == 0) {
+                    ok = true;
+                    break;
+                }
+            }
+            for (int i = 0; i < projs.length&&!ok; i++) {
+                if (projs[i] == 0) {
+                    ok = true;
+                    break;
+                }
+            }
         }
-        for(Project p:helperProject.keySet()){
-            System.out.println(p.getName()+" "+helperProject.get(p));
-        }
-        */
+        System.out.println(finalSet);
     }
 }

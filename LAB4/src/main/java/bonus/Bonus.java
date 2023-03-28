@@ -63,6 +63,6 @@ public class Bonus {
         studentProjectAllocation1.matchingJGraphT();*/
 
         studentProjectAllocation.setOfMinimumCardinality();
-
+        studentProjectAllocation1.setOfMinimumCardinality();
     }
 }
