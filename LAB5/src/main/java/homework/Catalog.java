@@ -1,4 +1,5 @@
-package compulsory;
+package homework;
+
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,9 +16,6 @@ public class Catalog implements Serializable {
 
     public Catalog(){
         docs = new ArrayList<>();
-    }
-    public void add(Document doc) {
-        docs.add(doc);
     }
 
     public List<Document> getDocs() {

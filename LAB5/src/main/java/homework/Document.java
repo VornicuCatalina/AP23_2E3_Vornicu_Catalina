@@ -1,4 +1,4 @@
-package compulsory;
+package homework;
 
 import java.io.Serializable;
 import java.util.HashMap;

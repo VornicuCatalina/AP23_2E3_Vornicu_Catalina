@@ -44,15 +44,15 @@ public class Bonus {
 
         //creating the random connections
         for (int i = 0; i < students2.length; i++) {
-            int rand = (int) (Math.random() * 3);
+            int rand = (int) (Math.random() * (projects2.length - 1));
             LinkedList<Project> constructor = new LinkedList<>();
             for (int j = 0; j < rand; j++) {
-                int randNumberProject = (int)(Math.random() * (projects2.length-1));
+                int randNumberProject = (int) (Math.random() * (projects2.length - 1));
                 if (!constructor.contains(projects2[randNumberProject])) {
                     constructor.add(projects2[randNumberProject]);
                 }
             }
-            if(constructor.isEmpty()){
+            if (constructor.isEmpty()) {
                 constructor.add(projects2[0]);
             }
             studentProjectAllocation1.addPrefMap(students2[i], constructor);
