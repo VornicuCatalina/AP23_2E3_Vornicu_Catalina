@@ -22,7 +22,7 @@ public class StudentProjectAllocation {
 
     //new
     private Graph<String, DefaultEdge> graphJGraphT = new DefaultUndirectedGraph<>(DefaultEdge.class);
-    private org.graph4j.Graph graphGraph4J = GraphBuilder.numVertices(1000).buildGraph();
+    private org.graph4j.Graph graphGraph4J = GraphBuilder.numVertices(1000000).buildGraph();
     //end
 
     private Map<Student, Integer> preferences = new LinkedHashMap<>();
@@ -58,8 +58,10 @@ public class StudentProjectAllocation {
             //adding edge
             String stud = student.getName();
             String proj = p.getName();
-            graphJGraphT.addEdge(stud, proj);
-            graphGraph4J.addEdge(stud, proj);
+            if(!graphJGraphT.containsEdge(stud,proj)){
+                graphJGraphT.addEdge(stud, proj);
+                graphGraph4J.addEdge(stud, proj);
+            }
         }
     }
 
@@ -138,54 +140,70 @@ public class StudentProjectAllocation {
         LinkedList<String> finalSet = new LinkedList<>(); //I will just use the name of them
 
         //creating 2 arrays specially used for checking only the unused variables
-        int[] studs = new int[students.size()];
-        int[] projs = new int[projectsList.size()];
+        int size1=students.size();
+        int size2=projectsList.size();
+        //int[] studs = new int[size1];
+        //int[] projs = new int[size2];
         LinkedList<Integer> projVal = new LinkedList<>(assignations.values());
         LinkedList<Integer> studVal = new LinkedList<>(preferences.values());
         //works
         helperMap();
 
+        int safeWayOut=size1+size2;
         boolean ok = true;
         while (ok) {
-            ok = false;
             int proj = Collections.max(projVal);
             int stud = Collections.max(studVal);
             if (proj > 0 || stud > 0) {
                 if (proj > stud) { //to check who has more neighbors
                     //where is new -> to check them in those matrices that they were taken
                     int idx = projVal.indexOf(proj);
-                    projs[idx] = 1; //new
+                    safeWayOut--; //decreasing
+                    //projs[idx] = 1; //new
                     Project p = projectsList.get(idx);
                     finalSet.add(p.getName());
                     projVal.set(idx, 0);
                     for (Student s : students) { //what student has that project -> has a lower no. of neighbors by 1
                         if (prefMap.get(s).contains(p)) {
                             int idx2 = students.indexOf(s);
-                            studs[idx2] = 1; //new
+                            //studs[idx2] = 1; //new
                             studVal.set(idx2, studVal.get(idx2) - 1);
+                            if(studVal.get(idx2)==0){
+                                safeWayOut--;
+                            }
                             for (Project projectHelp : projectsList) { //then checking what projects have that student -> -1
                                 if (assignMap.get(projectHelp).contains(s)) {
                                     int idx3 = projectsList.indexOf(projectHelp);
                                     projVal.set(idx3, projVal.get(idx3) - 1);
+                                    if(projVal.get(idx3)==0){
+                                        safeWayOut--;
+                                    }
                                 }
                             }
                         }
                     }
                 } else { //same pattern here, but in the opposite way
                     int idx = studVal.indexOf(stud);
-                    studs[idx] = 1; //new
+                    //studs[idx] = 1; //new
                     finalSet.add(students.get(idx).getName());
                     Student s = students.get(idx);
+                    safeWayOut--;
                     studVal.set(idx, 0);
                     for (Project p : projectsList) {
                         if (assignMap.get(p).contains(s)) {
                             int idx2 = projectsList.indexOf(p);
-                            projs[idx2] = 1; //new
+                            //projs[idx2] = 1; //new
                             projVal.set(idx2, projVal.get(idx2) - 1);
+                            if(projVal.get(idx2)==0){
+                                safeWayOut--;
+                            }
                             for (Student studentHelp : students) {
                                 if (prefMap.get(studentHelp).contains(p)) {
                                     int idx3 = students.indexOf(studentHelp);
                                     studVal.set(idx3, studVal.get(idx3) - 1);
+                                    if(studVal.get(idx3)==0){
+                                        safeWayOut--;
+                                    }
                                 }
                             }
                         }
@@ -194,19 +212,74 @@ public class StudentProjectAllocation {
             } else {
                 ok = false;
             }
-            for (int i = 0; i < studs.length; i++) {
-                if (studs[i] == 0) {
-                    ok = true;
-                    break;
-                }
-            }
-            for (int i = 0; i < projs.length&&!ok; i++) {
-                if (projs[i] == 0) {
-                    ok = true;
-                    break;
-                }
+            if(safeWayOut==0){
+                ok=false;
             }
         }
         System.out.println(finalSet);
+    }
+
+    public void setOfMaximumCardinality(){
+        //now creating one long array that will help me to check who is verified / added to the final solution
+        LinkedList<String> finalSet = new LinkedList<>(); //I will just use the name of them
+
+        //creating 2 arrays specially used for checking only the unused variables
+        int size1=students.size();
+        int size2=projectsList.size();
+        //int[] studs = new int[size1];
+        //int[] projs = new int[size2];
+        LinkedList<Integer> projVal = new LinkedList<>(assignations.values());
+        LinkedList<Integer> studVal = new LinkedList<>(preferences.values());
+        //works
+        helperMap();
+
+        int safeWayOut=size1+size2;
+        boolean ok = true;
+        int nrNodes= safeWayOut; //to be sure it is big enough
+        while (ok) {
+            int proj = Collections.min(projVal);
+            int stud = Collections.min(studVal);
+            if (proj < nrNodes || stud <nrNodes) {
+                if (proj < stud) { //to check who has fewer neighbors
+                    //where is new -> to check them in those matrices that they were taken
+                    int idx = projVal.indexOf(proj);
+                    //projs[idx] = 2; //new
+                    Project p = projectsList.get(idx);
+                    finalSet.add(p.getName());
+                    projVal.set(idx, nrNodes);
+                    safeWayOut--;
+                    for (Student s : students) { //what student has that project -> has a lower no. of neighbors by 1
+                        if (prefMap.get(s).contains(p)) {
+                            int idx2 = students.indexOf(s);
+                            //studs[idx2] = 1; //new
+                            studVal.set(idx2, nrNodes);
+                            safeWayOut--;
+                        }
+                    }
+                } else { //same pattern here, but in the opposite way
+                    int idx = studVal.indexOf(stud);
+                    //studs[idx] = 2; //new
+                    finalSet.add(students.get(idx).getName());
+                    Student s = students.get(idx);
+                    studVal.set(idx, nrNodes);
+                    safeWayOut--;
+                    for (Project p : projectsList) {
+                        if (assignMap.get(p).contains(s)) {
+                            int idx2 = projectsList.indexOf(p);
+                            //projs[idx2] = 1; //new
+                            projVal.set(idx2, nrNodes);
+                            safeWayOut--;
+                        }
+                    }
+                }
+            } else {
+                ok = false;
+            }
+            if(safeWayOut==0){
+                ok=false;
+            }
+        }
+        System.out.println(finalSet);
+
     }
 }

@@ -44,11 +44,12 @@ public class Bonus {
 
         //creating the random connections
         for (int i = 0; i < students2.length; i++) {
-            int rand = (int) (Math.random() * projects2.length);
+            int rand = (int) (Math.random() * 3);
             LinkedList<Project> constructor = new LinkedList<>();
             for (int j = 0; j < rand; j++) {
-                if (!constructor.contains(projects2[i])) {
-                    constructor.add(projects2[i]);
+                int randNumberProject = (int)(Math.random() * (projects2.length-1));
+                if (!constructor.contains(projects2[randNumberProject])) {
+                    constructor.add(projects2[randNumberProject]);
                 }
             }
             if(constructor.isEmpty()){
@@ -56,13 +57,15 @@ public class Bonus {
             }
             studentProjectAllocation1.addPrefMap(students2[i], constructor);
         }
-        /*studentProjectAllocation1.greedyAlg();
+        studentProjectAllocation1.greedyAlg();
         System.out.println();
         studentProjectAllocation1.matchingJGraphT();
         System.out.println();
-        studentProjectAllocation1.matchingJGraphT();*/
+        studentProjectAllocation1.matchingJGraphT();
 
         studentProjectAllocation.setOfMinimumCardinality();
+        studentProjectAllocation.setOfMaximumCardinality();
         studentProjectAllocation1.setOfMinimumCardinality();
+        studentProjectAllocation1.setOfMaximumCardinality();
     }
 }

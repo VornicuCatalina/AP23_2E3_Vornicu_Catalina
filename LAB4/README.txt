@@ -68,6 +68,19 @@ DenseEdmondsMaximumCardinalityMatching<String, DefaultEdge> graphHelper = new De
 
 1. I created objects of student and project classes by using the class Faker (methods from it)
 2. Then I looped through students arraylist and for every single one i used a random variable used to store a random number (Math.random()) and a linkedlist to add the projects that have been chosen from the list of projects also randomly
-3. In the end, I just call those 2 functions: greedyAlg & matchingAlg [they don't have these names in my code]  
+3. In the end, I have just called those 2 functions: greedyAlg & matchingAlg [they don't have these names in my code] - matching for both libraries 
 
-+ 
++ SO, to get that I used a way of getting the elements faster by using LinkedLists -> they have the functions max and min implemented, by calling Collection.min/max. The alg is this way
+
+1. We check who has the most neighbors in students, but also projects then compare them
+2. If it is student -> we will loop through projects and if it is project otherwise
+3. We check what elements have that student/project and decrease their value from their Arraylist , so we can find in real time who has more neighbors left (without the checked ones)
+4. Also in that loop we iterate through the student arraylist (if the student had more neighbors) , same for project arraylist to check who has that project/student to decrease them , so i do not have to do more useless calculus, better to use the opportunity to finish faster
+5. After we reached the numer of nodes as checked, the function stops using the variable safeWayOut -> turns ok as false then we get the result
+
++ In this part, i used most of the alg used at the previous exercise , but with some changes
+
+1. We check who has the fewest neighbors in students/projects then we compare them
+2. Same as the previous exercise
+3. We check what elements have that student/project and we change the value in their arraylist with number of nodes (projects+students) -> so we will make sure they are not counted
+4. same as 5th at previous exercise
