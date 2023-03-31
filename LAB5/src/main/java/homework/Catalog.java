@@ -7,14 +7,14 @@ import java.util.List;
 
 public class Catalog implements Serializable {
     private String name;
-    private List<Document> docs ;
+    private List<Document> docs;
 
     public Catalog(String catalog) {
         docs = new ArrayList<>();
         this.name = catalog;
     }
 
-    public Catalog(){
+    public Catalog() {
         docs = new ArrayList<>();
     }
 

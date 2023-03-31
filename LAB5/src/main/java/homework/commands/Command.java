@@ -1,9 +1,7 @@
 package homework.commands;
 
-import homework.Catalog;
-import homework.Document;
-import homework.InvalidCatalogException;
-import homework.InvalidDocName;
+import freemarker.template.TemplateException;
+import homework.*;
 
 import java.io.IOException;
 
@@ -37,6 +35,6 @@ public abstract class Command {
     public void viewCatalog(Document document) throws IOException, InvalidDocName {};
 
     //for ReportCommand
-    public void reportHTML(){};
+    public void reportHTML() throws IOException, TemplateException, InvalidCatalog {};
 
 }

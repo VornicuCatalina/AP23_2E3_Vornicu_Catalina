@@ -8,11 +8,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
-public class SaveCommand extends Command{
+public class SaveCommand extends Command {
 
-    public SaveCommand(Catalog catalog){
-        this.catalog=catalog;
+    public SaveCommand(Catalog catalog) {
+        this.catalog = catalog;
     }
+
     public void save(Catalog catalog, String path) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.writeValue(

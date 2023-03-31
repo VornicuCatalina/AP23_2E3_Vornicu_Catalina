@@ -9,7 +9,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
-public class LoadCommand extends Command{
+public class LoadCommand extends Command {
     public Catalog load(String path) throws InvalidCatalogException, IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         Catalog catalog = objectMapper.readValue(

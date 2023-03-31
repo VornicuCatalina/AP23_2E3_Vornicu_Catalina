@@ -9,23 +9,24 @@ public class Document implements Serializable {
     private String location;
     private String title;
     private String type;
-    private Map<String, Object> tags ;
+    private Map<String, Object> tags;
 
     public void addTags(String key, Object obj) {
         tags.put(key, obj);
     }
 
     public Document(String name, String type, String path, String id) {
-        tags= new HashMap<>();
+        tags = new HashMap<>();
         this.title = name;
         this.type = type;
         this.location = path;
         this.id = id;
     }
 
-    public Document(){
-        tags= new HashMap<>();
+    public Document() {
+        tags = new HashMap<>();
     }
+
     public String getId() {
         return id;
     }
@@ -65,7 +66,8 @@ public class Document implements Serializable {
     public void setTags(Map<String, Object> tags) {
         this.tags = tags;
     }
-    public void addTag(String key, Object obj){
-        tags.put(key,obj);
+
+    public void addTag(String key, Object obj) {
+        tags.put(key, obj);
     }
 }
