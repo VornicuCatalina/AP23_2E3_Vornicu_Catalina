@@ -1,0 +1,28 @@
+package bonus.commands;
+
+import bonus.*;
+
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+
+public class ViewCommand extends Command {
+    public ViewCommand(Catalog catalog) {
+        this.catalog = catalog;
+    }
+
+    public void viewCatalog(Document document) throws IOException, InvalidDocName {
+        if (!catalog.getDocs().contains(document)) {
+            throw new InvalidDocName("not part of the catalog");
+        } else {
+            Desktop helper = Desktop.getDesktop();
+            File fileDocument = new File(document.getLocation());
+            fileDocument.createNewFile();
+            if (fileDocument.exists()) {
+                helper.open(fileDocument);
+            } else {
+                System.out.println("It does not exist");
+            }
+        }
+    }
+}

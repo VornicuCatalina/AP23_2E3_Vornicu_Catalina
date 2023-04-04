@@ -1,4 +1,7 @@
 <html>
+  <head>
+    <meta name="description" content="Testing">
+   </head>
   <body>
     <h1>Catalog ${name}</h1>
     <#assign seq=docs>
