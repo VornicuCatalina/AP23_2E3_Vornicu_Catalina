@@ -7,8 +7,8 @@ import java.awt.image.BufferedImage;
 public class DrawingPanel extends JPanel {
     final MainFrame frame;
     final static int W = 800 , H=600;
-    private int numVertices;
-    private double edgeProbability;
+    private int numVertices=10;
+    private double edgeProbability=0.2;
     private int[] x,y;
 
     BufferedImage image;
@@ -39,6 +39,8 @@ public class DrawingPanel extends JPanel {
         //edgeProbability=(Double) frame.configPanel.linesCombo.getSelectedItem();
         createOffscreenImage();
         createVertices();
+        drawVertices();
+        drawLines();
     }
     private void createVertices(){
         int x0=W/2;
@@ -54,13 +56,38 @@ public class DrawingPanel extends JPanel {
     }
 
     private void drawLines(){
-
+        graphics.setColor(Color.BLACK);
+        for(int i=0;i<numVertices-1;i++){
+            for(int j=0;j<numVertices;j++){
+                if(i!=j){
+                    int rand= (int)(Math.random()*100);
+                    if(edgeProbability*100>=rand){
+                        graphics.drawLine(x[i],y[i],x[j],y[j]);
+                    }
+                }
+            }
+        }
     }
 
     private void drawVertices(){
-
+        graphics.setColor(Color.BLACK);
+        for(int i=0;i<numVertices;i++){
+            super.paintComponent(graphics);
+            graphics.drawOval(x[i],y[i],10,10);
+            graphics.fillOval(x[i],y[i],10,10);
+        }
     }
-
+    /*this.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    int x = e.getX();
+                    int y = e.getY();
+                    if(x>createButton.getX()&&y>createButton.getY()&&x<27&&y<550){
+                        System.out.println("merge");
+                    }
+                    repaint();
+                }
+            });*/
     @Override
     public void update(Graphics g){}
     @Override

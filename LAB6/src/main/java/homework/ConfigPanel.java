@@ -1,4 +1,4 @@
-package compulsory;
+package homework;
 
 import javax.swing.*;
 import java.util.Vector;
@@ -10,6 +10,8 @@ public class ConfigPanel extends JPanel {
     JComboBox linesCombo;
     JButton createButton;
     Vector<Float> items=new Vector<>();
+    public int nrDots;
+    public float edgeProb;
 
     public ConfigPanel(MainFrame frame){
         this.frame=frame;
@@ -34,5 +36,12 @@ public class ConfigPanel extends JPanel {
         add(linesLabel);
         add(linesCombo);
         add(createButton);
+        click();
     }
+    public void click(){
+        createButton.addActionListener(e -> {
+            frame.canvas.createBoard();
+        });
+    }
+
 }
