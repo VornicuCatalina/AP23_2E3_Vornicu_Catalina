@@ -18,14 +18,14 @@ import java.util.List;
 public class DrawingPanel extends JPanel {
     final MainFrame frame;
     final static int W = 800, H = 600;
-    private int numVertices;
-    private float edgeProbability;
-    private boolean start = false;
-    private int[] x, y;
+    int numVertices;
+    float edgeProbability;
+    boolean start = false;
+    int[] x, y;
     private int node1X, node2X, node1Y, node2Y;
-    private int player = 1;
-    private boolean finished = false;
-    public boolean saving=false;
+    int player = 1;
+    boolean finished = false;
+    public boolean saving = false;
     BufferedImage image;
     Graphics2D graphics;
 
@@ -51,7 +51,7 @@ public class DrawingPanel extends JPanel {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if(saving){
+                if (saving) {
                     try {
                         savePNG();
                     } catch (AWTException ex) {
@@ -128,14 +128,16 @@ public class DrawingPanel extends JPanel {
             }
         });
     }
+
     private void savePNG() throws AWTException, IOException {
         repaint();
         File outputfile = new File("C:/Users/User/Documents/AP23_2E3_Vornicu_Catalina/LAB6/src/main/java/png/pic.png");
-        Rectangle rectangle=new Rectangle(W,H+100);
-        BufferedImage bufferedImage=new Robot().createScreenCapture(rectangle);
+        Rectangle rectangle = new Rectangle(W, H + 100);
+        BufferedImage bufferedImage = new Robot().createScreenCapture(rectangle);
         ImageIO.write(bufferedImage, "png", outputfile);
-        saving=false;
+        saving = false;
     }
+
     private void checkingWinner() {
         int flag;
         for (List<Integer> key : nodesToUser.keySet()) {
@@ -155,7 +157,7 @@ public class DrawingPanel extends JPanel {
                             }
                             start = false;
                             finished = true;
-                            saving=true;
+                            saving = true;
                         }
                     }
                 }
@@ -184,8 +186,8 @@ public class DrawingPanel extends JPanel {
         if (counter == nodesToUser.size()) {
             graphics.drawString("DRAW", 700, 50);
             start = false;
-            saving=true;
-            finished=true;
+            saving = true;
+            finished = true;
         }
         repaint();
     }
@@ -273,6 +275,40 @@ public class DrawingPanel extends JPanel {
         for (int i = 0; i < numVertices; i++) {
             graphics.drawOval(x[i], y[i], 10, 10);
             graphics.fillOval(x[i], y[i], 10, 10);
+        }
+        repaint();
+    }
+
+
+    //for last point of loading the game //
+    void loadingGame(SerializationHelper serializationHelper) {
+        System.out.println("hey,works!");
+        this.numVertices = serializationHelper.numVertices;
+        this.edgeProbability = serializationHelper.edgeProbability;
+        this.player = serializationHelper.player;
+        this.x = serializationHelper.x;
+        this.y = serializationHelper.y;
+        this.finished = serializationHelper.finished;
+        this.start = true;
+        this.saving = finished;
+        this.nodesToUser = serializationHelper.nodesToUser;
+        this.graphJGraphT = serializationHelper.graphJGraphT;
+
+        createOffscreenImage();
+        drawVertices();
+        for (List<Integer> key : nodesToUser.keySet()) {
+            int color = nodesToUser.get(key);
+            switch (color) {
+                case 0:
+                    graphics.setColor(Color.BLACK);
+                    break;
+                case 1:
+                    graphics.setColor(Color.BLUE);
+                    break;
+                default:
+                    graphics.setColor(Color.RED);
+            }
+            graphics.drawLine(key.get(0), key.get(1), key.get(2), key.get(3));
         }
         repaint();
     }
