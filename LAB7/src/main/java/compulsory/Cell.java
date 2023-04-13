@@ -18,6 +18,13 @@ public class Cell {
         this.tokenList = tokenList;
     }
 
+    public int sumToken(){
+        int sum=0;
+        for(int i=0;i<tokenList.size();i++){
+            sum+=tokenList.get(i).getNumber();
+        }
+        return sum;
+    }
     @Override
     public String toString(){
         return "Cell has the tokens:"+

@@ -14,9 +14,12 @@ public class Robot implements Runnable {
     public void run() {
         while (running) {
             int size=explore.getMap().getSize();
-            int row=(int)(Math.random()*(size-1));
-            int col=(int)(Math.random()*(size-1));
-            explore.getMap().visit(row, col, this);
+            int row=(int)(Math.random()*size);
+            int col=(int)(Math.random()*size);
+            boolean checked=explore.getMap().visit(row, col, this);
+            if(!checked){
+                running=false;
+            }
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

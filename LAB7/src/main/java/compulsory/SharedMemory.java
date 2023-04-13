@@ -9,7 +9,7 @@ public class SharedMemory {
     private final LinkedList<Token> tokens= new LinkedList<>() ;
 
     public SharedMemory(int n) {
-        for(int i=0;i<n*n;i++){
+        for(int i=0;i<n;i++){
             tokens.add(new Token(i));
         }
         Collections.shuffle(tokens);
