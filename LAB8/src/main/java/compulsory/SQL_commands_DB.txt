@@ -1,0 +1,30 @@
+-------------------------
+Albums table
+-------------------------
+CREATE TABLE albums(
+id_album SERIAL PRIMARY KEY,
+release_year INTEGER NOT NULL,
+title VARCHAR(255) NOT NULL,
+artist VARCHAR(255) NOT NULL,
+genre VARCHAR(255) NOT NULL);
++++++++++++++++++++++++++++++
+-------------------------
+Artists table
+-------------------------
+CREATE TABLE artists(
+id_artist SERIAL PRIMARY KEY,
+name VARCHAR(255) NOT NULL);
++++++++++++++++++++++++++++++
+-------------------------
+Genres table
+-------------------------
+CREATE TABLE genres(
+id_genre SERIAL PRIMARY KEY,
+name VARCHAR(255) NOT NULL);
++++++++++++++++++++++++++++++
+-------------------------
+Associative table
+-------------------------
+CREATE TABLE associative(
+id_album INTEGER NOT NULL,
+id_genre INTEGER NOT NULL);
