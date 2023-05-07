@@ -51,7 +51,7 @@ public class ExplorationMap {
                     List<Token> tokensExtracted = robot.sharedMemory.extractTokens(5);
                     matrix[row][col].setTokenList(tokensExtracted);
                     visited[row][col] = 1;
-                    System.out.println("New cell has been explored by robot " + robot.getName() + " at cords " + row + " and " + col);
+                    //System.out.println("New cell has been explored by robot " + robot.getName() + " at cords " + row + " and " + col);
                     int noTokens = matrix[row][col].sumToken();
                     robot.addTokens(noTokens);
                     int ok = 1;

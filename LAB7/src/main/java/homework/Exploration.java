@@ -47,8 +47,8 @@ public class Exploration {
     public static void main(String args[]) {
         var exploration = new Exploration();
         exploration.setParameters(8, 5);
-        exploration.addRobot(new Robot("Wall-E", mem, exploration));
-        exploration.addRobot(new Robot("R2D2", mem, exploration));
+        exploration.addRobot(new Robot("Wall-E", mem, exploration)); //pause Wall-E 10
+        exploration.addRobot(new Robot("R2D2", mem, exploration)); //pause R2D2
         exploration.addRobot(new Robot("Optimus-Prime", mem, exploration));
         exploration.start();
         List<Robot> helpRobot = exploration.getRobots();
@@ -64,7 +64,7 @@ public class Exploration {
                     if (robot.getName().compareTo(arguments[1]) == 0) {
                         if (arguments[0].compareTo("start") == 0) {
                             //starting the robot by writing running=true
-                            System.out.println(robot.getName() + " started its execution!");
+                            //System.out.println(robot.getName() + " started its execution!");
                             robot.startExecution();
                         } else if (arguments[0].compareTo("pause") == 0) {
                             //pausing it after checking the time

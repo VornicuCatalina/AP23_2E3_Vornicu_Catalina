@@ -1,0 +1,15 @@
+-------------------------
+Playlists table
+-------------------------
+CREATE TABLE playlists(
+title VARCHAR(255) NOT NULL,
+timestamp TIMESTAMP NOT NULL,
+albums TEXT[] NOT NULL);
++++++++++++++++++++++++++++++
+
+//about albums?
+//2 choices -> name album or id album
+
+//a class that helps us
+//Playlist class -> adding albums in it then after using the done function -> creates the playlist
+//constructor of the class (title, timestamp) -> current date using Date thingy

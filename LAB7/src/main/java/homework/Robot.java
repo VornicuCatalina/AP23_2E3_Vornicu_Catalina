@@ -31,7 +31,10 @@ public class Robot implements Runnable {
     public void run() {
         while (running) {
             int size = explore.getMap().getSize();
-            boolean checked = explore.getMap().visit(row, col, this);
+            boolean checked;
+            if(row<size && col<size){
+                checked = explore.getMap().visit(row, col, this);
+            }
             col++;
             if(col>=size){
                 if(row+explore.numberRobots()<size){

@@ -1,4 +1,5 @@
-package optional;
+package bonus;
+
 
 import java.sql.*;
 
@@ -17,9 +18,6 @@ public class AlbumDAO {
 
     public void create(int release_year, String title, String artist, String genre) throws SQLException {
         Connection con = Database.getConnection();
-        if(title.contains("'")){
-            title=title.replace("'","`");
-        }
         try (PreparedStatement preparedStatement = con.prepareStatement(
                 "INSERT INTO albums (release_year,title,artist,genre) values (?,?,?,?)")) {
             preparedStatement.setInt(1, release_year);
@@ -30,7 +28,7 @@ public class AlbumDAO {
 
             //adding in associative table too
             int id_album;
-            Integer id_genre;
+            int id_genre;
             countGenres();
 
             //getting the ids
@@ -60,19 +58,6 @@ public class AlbumDAO {
                              )) {
                             id_genre = rs.next() ? rs.getInt(1) : null;
                         }
-                        if(id_genre==null){
-                            try (PreparedStatement preparedStatement2 = con.prepareStatement(
-                                    "INSERT INTO genres (name) values (?)")) {
-                                preparedStatement2.setString(1, arrayHelp[counter]);
-                                preparedStatement2.executeUpdate();
-                            }
-                            try (Statement statement2 = con.createStatement();
-                                 ResultSet rs2 = statement2.executeQuery(
-                                         "SELECT id_genre FROM genres WHERE name='" + arrayHelp[counter] + "'"
-                                 )) {
-                                id_genre = rs2.next() ? rs2.getInt(1) : null;
-                            }
-                        }
                         preparedStatement1.setInt(2, id_genre);
                         preparedStatement1.executeUpdate();
                         counter++;
@@ -84,17 +69,6 @@ public class AlbumDAO {
                                  "SELECT id_genre FROM genres WHERE name='" + genre + "'"
                          )) {
                         id_genre = rs.next() ? rs.getInt(1) : null;
-                    }
-                    try (PreparedStatement preparedStatement2 = con.prepareStatement(
-                            "INSERT INTO genres (name) values (?)")) {
-                        preparedStatement2.setString(1, genre);
-                        preparedStatement2.executeUpdate();
-                    }
-                    try (Statement statement2 = con.createStatement();
-                         ResultSet rs2 = statement2.executeQuery(
-                                 "SELECT id_genre FROM genres WHERE name='" + genre + "'"
-                         )) {
-                        id_genre = rs2.next() ? rs2.getInt(1) : null;
                     }
                     preparedStatement1.setInt(2, id_genre);
                     preparedStatement1.executeUpdate();

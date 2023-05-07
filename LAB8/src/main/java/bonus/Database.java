@@ -1,4 +1,4 @@
-package optional;
+package bonus;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -17,7 +17,7 @@ public class Database {
     }
 
     public static Connection getConnection() {
-        if (connection == null) {
+        if(connection==null){
             createConnection();
         }
         return connection;
@@ -26,7 +26,7 @@ public class Database {
     private static void createConnection() {
         try {
             createHikariCP();
-            connection = ds.getConnection();
+            connection=ds.getConnection();
             connection.setAutoCommit(false);
         } catch (SQLException e) {
             System.err.println(e);
@@ -42,7 +42,7 @@ public class Database {
     }
 
     public static void rollback() {
-        try {
+        try{
             connection.rollback();
         } catch (SQLException e) {
             System.err.println(e);
@@ -50,7 +50,7 @@ public class Database {
     }
 
     //for HikariCP
-    public static void createHikariCP() {
+    public static void createHikariCP(){
         HikariConfig config = new HikariConfig("C:/Users/User/Documents/AP23_2E3_Vornicu_Catalina/LAB8/src/main/java/optional/hikari.properties");
         ds = new HikariDataSource(config);
     }
