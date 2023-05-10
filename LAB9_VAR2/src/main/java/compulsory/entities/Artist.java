@@ -1,20 +1,18 @@
 package compulsory.entities;
 
 import jakarta.persistence.*;
-import java.io.Serializable;
 
 @Entity
-@Table(name = "artists")
+@Table(name = "artists" , schema = "public")
 @NamedQueries({
         @NamedQuery(name = "Artist.findAll",
                 query = "select e from Artist e order by e.name"),
         @NamedQuery(name = "Artist.findByName",
                 query = "select e from Artist e where e.name = ?1"),
         @NamedQuery(name = "Artist.findById",
-                query = "select e from Artist e where e.id_artist = ?1"),
+                query = "select e from Artist e where e.id = ?1"),
 })
-
-public class Artist implements Serializable {
+public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "id")
     @Column(name = "id")
@@ -49,23 +47,5 @@ public class Artist implements Serializable {
     @Override
     public String toString() {
         return super.toString();
-    }
-
-    public void testJPA() {
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory(
-                        "MyApplicationPU");
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        Artist artist = new Artist("Beatles");
-        em.persist(artist);
-
-        Artist a = (Artist) em.createQuery(
-                        "select e from Artist e where e.name='Beatles'")
-                .getSingleResult();
-        a.setName("The Beatles");
-        em.getTransaction().commit();
-        em.close();
-        emf.close();
     }
 }
