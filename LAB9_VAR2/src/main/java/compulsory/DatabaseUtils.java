@@ -5,7 +5,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 public class DatabaseUtils {
-    String PERSISTENCE_UNIT_NAME = "MyApplicationPU";
+    String PERSISTENCE_UNIT_NAME = "default";
     private static DatabaseUtils instance;
     private final EntityManagerFactory entityManagerFactory;
 

@@ -1,40 +1,40 @@
 package compulsory.repositories;
 
 import compulsory.DatabaseUtils;
+import compulsory.entities.Album;
 import compulsory.entities.Artist;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
 import java.util.List;
 
-public class ArtistRepository extends DataRepository<Artist, Long> {
+public class AlbumRepository extends DataRepository<Album, Long> {
     //private EntityManager em = DatabaseUtils.getInstance().getEntityManager();
     //private EntityTransaction entityTransaction;
-    public Class<Artist> getEntityClass() {
-        return Artist.class;
+    public Class<Album> getEntityClass() {
+        return Album.class;
     }
 
-    public ArtistRepository() {
+    public AlbumRepository() {
         //entityTransaction=em.getTransaction();
         //entityTransaction.begin();
     }
 
-    public List<Artist> findByName(String name) {
+    public List<Album> findByTitle(String title) {
         return getEntityManager()
-                .createNamedQuery("Artist.findByArtist", Artist.class)
-                .setParameter(1, name)
+                .createNamedQuery("Album.findByName")
+                .setParameter(1, title)
                 .getResultList();
     }
 
-    public List<Artist> findById(int id) {
-        return getEntityManager()
-                .createNamedQuery("Artist.findById", Artist.class)
+    public List<Album> findById(int id) {
+        return getEntityManager().
+                createNamedQuery("Album.findById")
                 .setParameter(1, id)
                 .getResultList();
     }
 
-    public void create(Artist artist) {
-        save(artist);
+    public void create(Album album) {
+        save(album);
     }
 }

@@ -2,8 +2,10 @@ package compulsory.entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
-@Table(name = "artists" , schema = "public")
+@Table(name = "artists", schema = "public")
 @NamedQueries({
         @NamedQuery(name = "Artist.findAll",
                 query = "select e from Artist e order by e.name"),
@@ -15,7 +17,7 @@ import jakarta.persistence.*;
 public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "id")
-    @Column(name = "id")
+    @Column(name = "id_album")
     private int id;
 
     @Column(name = "name")
@@ -46,6 +48,21 @@ public class Artist {
 
     @Override
     public String toString() {
-        return super.toString();
+        return this.id +
+                " " +
+                this.name;
     }
+
+    //starting for homework
+    @OneToMany
+    @JoinColumn(name = "artist", referencedColumnName = "name")
+    private List<Album> albumList;
+
+    @ManyToMany
+    @JoinTable(name = "artist_album_relation", schema = "public",
+            joinColumns = @JoinColumn(name = "artist", referencedColumnName = "name"),
+            inverseJoinColumns = @JoinColumn(name = "name", referencedColumnName = "artist"))
+    private List<Album> albumListWhole;
+
+
 }
