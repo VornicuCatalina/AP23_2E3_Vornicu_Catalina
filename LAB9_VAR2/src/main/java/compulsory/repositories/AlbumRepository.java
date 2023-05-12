@@ -18,6 +18,7 @@ public class AlbumRepository extends DataRepository<Album, Long> {
     public AlbumRepository() {
         //entityTransaction=em.getTransaction();
         //entityTransaction.begin();
+
     }
 
     public List<Album> findByTitle(String title) {
