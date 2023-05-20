@@ -1,16 +1,15 @@
 package compulsory.repositories;
 
-import compulsory.DatabaseUtils;
-import compulsory.entities.Artist;
+
 import compulsory.entities.Genre;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
+import compulsory.factories.EntitiesClasses;
 
 import java.util.List;
 
-public class GenreRepository extends DataRepository<Genre, Long> {
+public class GenreRepository extends DataRepository<Genre, Long> implements EntitiesClasses {
     //private EntityManager em = DatabaseUtils.getInstance().getEntityManager();
     //private EntityTransaction entityTransaction;
+    Genre genre;
 
     public Class<Genre> getEntityClass() {
         return Genre.class;
@@ -19,6 +18,10 @@ public class GenreRepository extends DataRepository<Genre, Long> {
     public GenreRepository() {
         //entityTransaction=em.getTransaction();
         //entityTransaction.begin();
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
     }
 
     public List<Genre> findByName(String name) {
@@ -35,7 +38,8 @@ public class GenreRepository extends DataRepository<Genre, Long> {
                 .getResultList();
     }
 
-    public void create(Genre genre) {
+    @Override
+    public void createEn() {
         save(genre);
     }
 }

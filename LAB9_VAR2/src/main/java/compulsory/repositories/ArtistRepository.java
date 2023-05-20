@@ -1,16 +1,16 @@
 package compulsory.repositories;
 
-import compulsory.DatabaseUtils;
 import compulsory.entities.Artist;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
+import compulsory.factories.EntitiesClasses;
 
 import java.util.List;
 
-public class ArtistRepository extends DataRepository<Artist, Long> {
+public class ArtistRepository extends DataRepository<Artist, Long> implements EntitiesClasses {
     //private EntityManager em = DatabaseUtils.getInstance().getEntityManager();
     //private EntityTransaction entityTransaction;
+    Artist artist;
+
     public Class<Artist> getEntityClass() {
         return Artist.class;
     }
@@ -18,6 +18,10 @@ public class ArtistRepository extends DataRepository<Artist, Long> {
     public ArtistRepository() {
         //entityTransaction=em.getTransaction();
         //entityTransaction.begin();
+    }
+
+    public void setArtist(Artist artist) {
+        this.artist = artist;
     }
 
     public List<Artist> findByName(String name) {
@@ -34,7 +38,8 @@ public class ArtistRepository extends DataRepository<Artist, Long> {
                 .getResultList();
     }
 
-    public void create(Artist artist) {
+    @Override
+    public void createEn() {
         save(artist);
     }
 }

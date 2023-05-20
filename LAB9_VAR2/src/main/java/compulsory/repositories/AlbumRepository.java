@@ -1,14 +1,13 @@
 package compulsory.repositories;
 
-import compulsory.DatabaseUtils;
 import compulsory.entities.Album;
-import compulsory.entities.Artist;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
+import compulsory.factories.EntitiesClasses;
 
 import java.util.List;
 
-public class AlbumRepository extends DataRepository<Album, Long> {
+public class AlbumRepository extends DataRepository<Album, Long> implements EntitiesClasses {
+    Album album;
+
     //private EntityManager em = DatabaseUtils.getInstance().getEntityManager();
     //private EntityTransaction entityTransaction;
     public Class<Album> getEntityClass() {
@@ -19,6 +18,11 @@ public class AlbumRepository extends DataRepository<Album, Long> {
         //entityTransaction=em.getTransaction();
         //entityTransaction.begin();
 
+
+    }
+
+    public void setAlbum(Album album) {
+        this.album = album;
     }
 
     public List<Album> findByTitle(String title) {
@@ -35,7 +39,8 @@ public class AlbumRepository extends DataRepository<Album, Long> {
                 .getResultList();
     }
 
-    public void create(Album album) {
+    @Override
+    public void createEn() {
         save(album);
     }
 }

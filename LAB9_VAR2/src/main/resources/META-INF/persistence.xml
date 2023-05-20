@@ -14,8 +14,8 @@
 
         <!-- Register all models -->
         <!-- <class>compulsory.entities.Artist</class> -->
-        <class>homework.entities.Artist</class>
-        <class>homework.DatabaseUtils</class>
+        <class>compulsory.entities.Artist</class>
+        <class>compulsory.DatabaseUtils</class>
 
         <properties>
 
