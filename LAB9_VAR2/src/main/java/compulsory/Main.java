@@ -9,10 +9,12 @@ import compulsory.jdbcRepositories.ArtistDAO;
 import compulsory.repositories.AlbumRepository;
 import compulsory.repositories.ArtistRepository;
 
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
         //the start of the execution call - homework
-        long start = System.nanoTime();
+        //long start = System.nanoTime();
 
         //creating the repositories
         /*ArtistRepository artistRepository = new ArtistRepository();
@@ -23,7 +25,7 @@ public class Main {
         artistRepository.createEn();*/
 
         //creating those fake artists - homework
-        Faker faker = new Faker();
+        //Faker faker = new Faker();
 
         //creating 1k artists and 1k albums - homework
         //for genres : 3 options : rock , pop , hip hop
@@ -49,11 +51,11 @@ public class Main {
         //System.out.println(albumRepository.findByTitle("Chief Accountability Executive"));
 
         //the finish time - homework
-        long finish = System.nanoTime();
-        System.out.println("The execution time is " + (finish - start));
+        //long finish = System.nanoTime();
+        //System.out.println("The execution time is " + (finish - start));
 
         //for bonus
-        AbstractFactory DAOFactory = FactoryCreator.getFactory("DAO");
+        /*AbstractFactory DAOFactory = FactoryCreator.getFactory("DAO");
         AbstractFactory entityFactory = FactoryCreator.getFactory("Entity");
         ArtistRepository artistRepository = (ArtistRepository) entityFactory.createEn("Artist");
         Artist a = new Artist("George");
@@ -62,6 +64,11 @@ public class Main {
 
         ArtistDAO artistDAO = (ArtistDAO) DAOFactory.create("Artist");
         artistDAO.setName("George2");
-        artistDAO.create();
+        artistDAO.create();*/
+
+        ExistenceAlgorithm existenceAlgorithm = new ExistenceAlgorithm(2, 3);
+        System.out.println(existenceAlgorithm.returnAlbum());
+
+
     }
 }

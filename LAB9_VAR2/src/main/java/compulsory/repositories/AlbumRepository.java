@@ -27,15 +27,22 @@ public class AlbumRepository extends DataRepository<Album, Long> implements Enti
 
     public List<Album> findByTitle(String title) {
         return getEntityManager()
-                .createNamedQuery("Album.findByName")
+                .createNamedQuery("Album.findByName", Album.class)
                 .setParameter(1, title)
                 .getResultList();
     }
 
     public List<Album> findById(int id) {
         return getEntityManager().
-                createNamedQuery("Album.findById")
+                createNamedQuery("Album.findById", Album.class)
                 .setParameter(1, id)
+                .getResultList();
+    }
+
+    public List<Album> findByFirstLetter(String letter) {
+        return getEntityManager()
+                .createNamedQuery("Album.findByFirstLetter", Album.class)
+                .setParameter(1, letter)
                 .getResultList();
     }
 

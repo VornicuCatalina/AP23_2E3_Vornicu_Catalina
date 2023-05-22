@@ -6,7 +6,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "albums", schema = "public")
-@NamedQueries({@NamedQuery(name = "Album.findByName", query = "select e from Album e where e.title= ?1"), @NamedQuery(name = "Album.findById", query = "select e from Album e where e.id=?1"),})
+@NamedQueries({@NamedQuery(name = "Album.findByName", query = "select e from Album e where e.title= ?1"), @NamedQuery(name = "Album.findById", query = "select e from Album e where e.id=?1"),
+        @NamedQuery(name = "Album.findByFirstLetter", query = "select e from Album e where e.title LIKE CONCAT(?1,'%')"),})
 public class Album {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "id")
