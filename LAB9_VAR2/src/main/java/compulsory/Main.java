@@ -55,7 +55,7 @@ public class Main {
         //System.out.println("The execution time is " + (finish - start));
 
         //for bonus
-        /*AbstractFactory DAOFactory = FactoryCreator.getFactory("DAO");
+        AbstractFactory DAOFactory = FactoryCreator.getFactory("DAO");
         AbstractFactory entityFactory = FactoryCreator.getFactory("Entity");
         ArtistRepository artistRepository = (ArtistRepository) entityFactory.createEn("Artist");
         Artist a = new Artist("George");
@@ -64,7 +64,7 @@ public class Main {
 
         ArtistDAO artistDAO = (ArtistDAO) DAOFactory.create("Artist");
         artistDAO.setName("George2");
-        artistDAO.create();*/
+        artistDAO.create();
 
         ExistenceAlgorithm existenceAlgorithm = new ExistenceAlgorithm(2, 3);
         System.out.println(existenceAlgorithm.returnAlbum());
